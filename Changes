@@ -1,6 +1,9 @@
 Revision history for Perl module WebService::Basecamp
 
-0.1 Mon Jul 31 15:03:26 2006
+0.1.1 Fri Aug 18 2006
+    - fixed a couple of typos and alignment in documentation
+
+0.1 Mon Jul 31 2006
     - original version; created by ExtUtils::ModuleMaker 0.47
 
 

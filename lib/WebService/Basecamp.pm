@@ -4,7 +4,7 @@ use strict;
 use LWP::UserAgent;
 use XML::Simple;
 
-our $VERSION = 0.1;
+our $VERSION = 0.1.1;
 
 =pod
 
@@ -33,7 +33,7 @@ platform but provides a webservice API to many of the application functions.
 WebService::Basecamp is a Perl interface to the Basecamp web service API.
 
 For more information on Basecamp, visit the Basecamp website. 
-http://www.bascamphq.com.
+http://www.basecamphq.com.
 
 This module does much of the heavy lifting for you when accessing the Basecamp 
 API. Once initialising a WebService::Basecamp object you can access the API 
@@ -326,8 +326,8 @@ Create a new comment, associating it with a specific message. Returns a hash
 containing all of the comment details.
 
  my $message_id    = 1234;
- my $comment        = "This looks too easy!";
- my $new_comment = $bc->create_comment($message_id, $comment);
+ my $comment       = "This looks too easy!";
+ my $new_comment   = $bc->create_comment($message_id, $comment);
 
 =cut
 
@@ -355,30 +355,29 @@ XML
 Creates a new message, optionally sending notifications to a selected list of 
 people. The available fields are;
 
- category_id        - the id of the message category
+ category_id      - the id of the message category
  title            - message title
- body            - summary text of main message
+ body             - summary text of main message
  extended_body    - the main body of the message
- textile            - optional boolean value. Set to '1' to use Basecamp's 
-textile
-                  formatting for your message. Defaults to '0'.
- private            - optional boolean value. Set to '1' to make this message 
-                  visible only to the logged in user. Defaults to '0'.
- notify            - optional list of person ids. Each person in this list will 
-                  receive an email notification of the message. 
+ textile          - optional boolean value. Set to '1' to use Basecamp's 
+                    textile formatting for your message. Defaults to '0'.
+ private          - optional boolean value. Set to '1' to make this message 
+                    visible only to the logged in user. Defaults to '0'.
+ notify           - optional list of person ids. Each person in this list will 
+                    receive an email notification of the message. 
 
 Returns a hash containing all of the message details.
 
- my $project_id    = 1234;
- my $message    = {    category_id => 654321, 
-                    title => 'New Message Title', 
-                    body => 'This text is a summary of the message', 
+ my $project_id = 1234;
+ my $message    = { category_id   => 654321, 
+                    title         => 'New Message Title', 
+                    body          => 'This text is a summary of the message', 
                     extended_body => 'This is the main body of the message', 
-                    textile => 1,    # optional field
-                    private => 0,    # optional field
-                    notify => qw(1234 5678) # optional field
+                    textile       => 1,    # optional field
+                    private       => 0,    # optional field
+                    notify        => qw(1234 5678) # optional field
                     };
- my $data = $bc->create_message($project_id,$message);
+ my $data       = $bc->create_message($project_id,$message);
 
 =cut
 
@@ -513,8 +512,8 @@ sub message_archive_per_category {
 Update a specific comment. This can be used to edit the content of an existing 
 comment. Returns a hash containing all of the comment details.
 
- my $comment_id    = 99999;
- my $comment        = "This looks too easy!!";
+ my $comment_id  = 99999;
+ my $comment     = "This looks too easy!!";
  my $new_comment = $bc->update_comment($comment_id, $comment);
 
 =cut
@@ -610,11 +609,11 @@ the party_id value. If a company is responsible, prefix their company id with a
 responsible party, you can use the notify key to indicate whether an email 
 should be sent to that person to tell them about the assignment.
 
- my $list_id        = 4321;
- my $item_data    = { content    => "Turn the lights out",
-                    party_id    => 555,
-                    notify        => 1 };
- my $new_item = $bc->create_item($list_id, $item_data);
+ my $list_id   = 4321;
+ my $item_data = { content     => "Turn the lights out",
+                   party_id    => 555,
+                   notify      => 1 };
+ my $new_item  = $bc->create_item($list_id, $item_data);
 
 Returns a hash containing all of the item details.
 
@@ -647,10 +646,10 @@ This will create a new, empty list. You can create the list explicitly, or by
 giving it a list template id to base the new list off of. The available fields 
 are:
 
- milestone_id    - optional id of an associated milestone
+ milestone_id   - optional id of an associated milestone
  private        - optional boolean value. Set to '1' to make this list visible
                   only to the logged in user. Defaults to '0'.
- track            - optional boolean value. Set to '1' to enable time tracking on 
+ track          - optional boolean value. Set to '1' to enable time tracking on 
                   items in this list. Defaults to '0';
 
 Basecamp allows you to create list templates for easy creation of common task 
@@ -661,17 +660,17 @@ predefined list template:
 
 or pass the name and description for the list:
 
- name            - list title
+ name           - list title
  description    - optional description of list
 
 
- my $project_id    = 654321;
- my $list_data    = {    milestone_id    => 5436, 
-                    private            => 0, 
-                    track            => 1,
+ my $project_id = 654321;
+ my $list_data  = { milestone_id    => 5436, 
+                    private         => 0, 
+                    track           => 1,
                     name            => 'Closing up procedures', 
                     };
- my $data = $bc->create_list($project_id,$list_data);
+ my $data       = $bc->create_list($project_id,$list_data);
 
 =cut
 
@@ -711,8 +710,8 @@ Deletes the specified item, removing it from its parent list.
 
 sub delete_item {
     my $self        = shift;
-    my $item_id        = shift || return $self->_val_error('item');
-    my $qs            = "/todos/delete_item/$item_id";
+    my $item_id     = shift || return $self->_val_error('item');
+    my $qs          = "/todos/delete_item/$item_id";
     return $self->_perform($qs);
 }
 
@@ -727,8 +726,8 @@ it. Use it with caution, because a deleted list cannot be restored!
 
 sub delete_list {
     my $self        = shift;
-    my $list_id        = shift || return $self->_val_error('list');
-    my $qs            = "/todos/delete_list/$list_id";
+    my $list_id     = shift || return $self->_val_error('list');
+    my $qs          = "/todos/delete_list/$list_id";
     return $self->_perform($qs);
 }
 
@@ -742,8 +741,8 @@ This will return the metadata and items for a specific list.
 
 sub list {
     my $self        = shift;
-    my $list_id        = shift || return $self->_val_error('list');
-    my $qs            = "/todos/list/$list_id";
+    my $list_id     = shift || return $self->_val_error('list');
+    my $qs          = "/todos/list/$list_id";
     return $self->_perform($qs);
 }
 
@@ -765,9 +764,9 @@ Available keys for this method are 'name' and 'id'. (optional)
 
 sub lists {
     my $self        = shift;
-    my $project_id    = shift || return $self->_val_error('project');
+    my $project_id  = shift || return $self->_val_error('project');
     my $complete    = shift;
-    my $key            = shift;
+    my $key         = shift;
     my @keyoptions = qw(name id);
     return 0 unless $self->_key_val($key,\@keyoptions);
     $self->{'_content'} = "<request><complete>$complete</complete></request>" if $complete;
@@ -787,9 +786,9 @@ item beyond the end of the list puts it at the bottom of the list.
 
 sub move_item {
     my $self        = shift;
-    my $item_id        = shift || return $self->_val_error('item');
+    my $item_id     = shift || return $self->_val_error('item');
     my $position    = shift;
-    my $qs            = "/todos/move_item/$item_id";
+    my $qs          = "/todos/move_item/$item_id";
     $self->{'_content'}= "<request><to>$position</to></request>";
     return $self->_perform($qs);
 }
@@ -808,9 +807,9 @@ number of lists (inclusive).
 
 sub move_list {
     my $self        = shift;
-    my $list_id        = shift || return $self->_val_error('list');
+    my $list_id     = shift || return $self->_val_error('list');
     my $position    = shift;
-    my $qs            = "/todos/move_list/$list_id";
+    my $qs          = "/todos/move_list/$list_id";
     $self->{'_content'}= "<request><to>$position</to></request>";
     return $self->_perform($qs);
 }
@@ -826,8 +825,8 @@ this does nothing.
 
 sub uncomplete_item {
     my $self        = shift;
-    my $item_id        = shift || return $self->_val_error('item');
-    my $qs            = "/todos/uncomplete_item/$item_id";
+    my $item_id     = shift || return $self->_val_error('item');
+    my $qs          = "/todos/uncomplete_item/$item_id";
     return $self->_perform($qs);
 }
 
@@ -841,19 +840,19 @@ Modifies an existing item. Available fields are as per the create_item method.
 
 sub update_item {
     my $self        = shift;
-    my $item_id        = shift || return $self->_val_error('item');
+    my $item_id     = shift || return $self->_val_error('item');
     my $data        = shift;
-    my $qs            = "/todos/update_item/$item_id";
-    my $content        = $data->{'comment'};
+    my $qs          = "/todos/update_item/$item_id";
+    my $content     = $data->{'comment'};
     my $party_id    = $data->{'party_id'};
-    my $notify        = $data->{'notify'} ? 'true' : 'false';
+    my $notify      = $data->{'notify'} ? 'true' : 'false';
     my $xml = "<request><item><content>$content</content></item>";
     if ($party_id) {
     $xml .= 
 "<responsible-party>$party_id</responsible-party><notify>$notify</notify>";
     }
     $xml .= "</request>";
-    $self->{'_content'}= $xml;
+    $self->{'_content'} = $xml;
     return $self->_perform($qs);
 }
 
@@ -867,24 +866,24 @@ create_list method, with the exclusion of the template_id.
 =cut
 
 sub update_list {
-    my $self        = shift;
-    my $list_id        = shift || return $self->_val_error('list');
-    my $data        = shift;
-    my $qs            = "/todos/update_list/$list_id";
+    my $self         = shift;
+    my $list_id      = shift || return $self->_val_error('list');
+    my $data         = shift;
+    my $qs           = "/todos/update_list/$list_id";
     my $milestone_id = int($data->{'category_id'});
-    my $private        = $data->{'private'} ? 'true' : 'false';
-    my $tracked        = $data->{'track'} ? 'true' : 'false';
-    my $name        = $data->{'name'};
-    my $description = $data->{'description'};
-    my $template_id    = int($data->{'template_id'});
-    my $xml            = "<request><list>";
+    my $private      = $data->{'private'} ? 'true' : 'false';
+    my $tracked      = $data->{'track'} ? 'true' : 'false';
+    my $name         = $data->{'name'};
+    my $description  = $data->{'description'};
+    my $template_id  = int($data->{'template_id'});
+    my $xml          = "<request><list>";
     $xml .= "<name>$name</name>" if $name;
     $xml .= "<description>$description</description>" if $description;
     $xml .= "<milestone-id>$milestone_id</milestone-id>" if $milestone_id;
     $xml .= "<private>$private</private>" if $private;
     $xml .= "<tracked>$tracked</tracked>" if $tracked;
     $xml .= "</list></request>\n";
-    $self->{'_content'}= $xml;
+    $self->{'_content'} = $xml;
     return $self->_perform($qs);
 }
 
@@ -924,20 +923,20 @@ the responsible party, you can use the notify key to indicate whether an email
 should be sent to that person to tell them about the milestone. The available 
 fields are:
 
- title        - Title for the milestone
+ title       - Title for the milestone
  deadline    - date the milestone is due to be completed. Must be in the format 
-              of YYYYMMDD
+               of YYYYMMDD
  party_id    - id of a person or company responsible for the milestone. If it is 
-              a company, prefix the id with a 'c', e.g. 'c123' 
- notify        - optional boolean value. Set to '1' to send an email about the     
-              milestone to the responsible party.
+               a company, prefix the id with a 'c', e.g. 'c123' 
+ notify      - optional boolean value. Set to '1' to send an email about the     
+               milestone to the responsible party.
 
- my $project_id = 654321
- my $milestone_data = {    title        => 'Launch Party',
+ my $project_id     = 654321;
+ my $milestone_data = { title       => 'Launch Party',
                         deadline    => '20060828',
                         party_id    => 555,
-                        notify        => 1 };
- my $new_milestone = $bc->create_milestone($project_id, $milestone_data);
+                        notify      => 1 };
+ my $new_milestone  = $bc->create_milestone($project_id, $milestone_data);
 
 Returns a hash containing all of the milestone details.
 
@@ -1029,21 +1028,21 @@ The available fields are as per the create_milestone() method with the addition
 of two extra fields:
 
  move_upcoming    - optional boolean value. Set to '1' to move subsequent         
-                  milestone deadlines whne updating the deadline for this 
-                  milestone
+                    milestone deadlines whne updating the deadline for this 
+                    milestone
  move_weekends    - optional boolean value. If using the 'move_upcoming' 
-                  parameter, you can set this value to '1' to make sure that any 
-                  subsequent milestone deadlines do not get moved to a Saturday 
-                  or Sunday.
+                    parameter, you can set this value to '1' to make sure that any 
+                    subsequent milestone deadlines do not get moved to a Saturday 
+                    or Sunday.
 
- my $milestone_id = 98765
- my $milestone_data = {    title            => 'Launch Party',
-                            deadline        => '20061028',
-                            party_id        => 555,
-                            notify            => 1,
+ my $milestone_id   = 98765;
+ my $milestone_data = {     title            => 'Launch Party',
+                            deadline         => '20061028',
+                            party_id         => 555,
+                            notify           => 1,
                             move_upcoming    => 1,
                             move_weekends    => 1 };
- my $new_milestone = $bc->update_milestone($milestone_id, $milestone_data);
+ my $new_milestone  = $bc->update_milestone($milestone_id, $milestone_data);
 
 Returns a hash containing all of the milestone details.
 
@@ -1092,28 +1091,28 @@ $upcoming;
 With this method you can create a new time entry for a particular person and 
 project. The available fields are:
 
- project_id    - id for the project associated with the task
- person_id    - id of the person who completed the work
+ project_id  - id for the project associated with the task
+ person_id   - id of the person who completed the work
  date        - date the work took place. Date format = YYYYMMDD, e.g. 20060801 
- hours        - time worked, in hours
+ hours       - time worked, in hours
 
 If the task being time tracked is an existing item from a to do list, you can 
 pass the item_id:
 
- item_id        - id of an existing to do list item
+ item_id     - id of an existing to do list item
 
 or you can provide a description of the task
 
- description    - txt description of the task
+ description - txt description of the task
 
- my $project_id    = 654321;
- my $person_id    = 555;
- my $data = {    project_id    => $project_id,
-                person_id    => $person_id,
-                date        => '20060801',
-                hours        => '1.25',
-                description    => 'Meeting with world leaders' };
- my $new_time = $bc->create_time($data);
+ my $project_id = 654321;
+ my $person_id  = 555;
+ my $data       = { project_id  => $project_id,
+                    person_id   => $person_id,
+                    date        => '20060801',
+                    hours       => '1.25',
+                    description => 'Meeting with world leaders' };
+ my $new_time   = $bc->create_time($data);
 
 
 =cut
@@ -1174,9 +1173,9 @@ worth of data. The $filter parameter can be blank, or an id number prefixed by a
 
  my $report = $bc->report_time(5,'20060101','20060207','c7');
     
- Would return all time entries for the person with id 5, for all projects 
-associated with the company with id 7, between the dates 2006-01-01 and 
-2006-02-07 (inclusive).
+ - would return all time entries for the person with id 5, for all projects 
+ associated with the company with id 7, between the dates 2006-01-01 and 
+ 2006-02-07 (inclusive).
 
 Date values passed for $from and $to must be in the format of YYYYMMDD
 
