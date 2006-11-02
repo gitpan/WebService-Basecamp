@@ -4,7 +4,7 @@ use strict;
 use LWP::UserAgent;
 use XML::Simple;
 
-our $VERSION = 0.1.1;
+our $VERSION = 0.1.2;
 
 =pod
 
@@ -1328,12 +1328,13 @@ sub _perform {
     $req->header('Accept' => 'application/xml');
     $req->content_type('application/xml');
     $req->authorization_basic($self->{'_buser'}, $self->{'_bpass'});
+	$req->content_length(length($self->{'_content'}));
     $req->content($self->{'_content'});
     my $body = $ua->request($req);
     my $data = {};
     if ($body->is_success) {
         return $body->content if $self->{'_xml'};
-        $data = XMLin($body->content, keyattr => [$key], NoAttr => 1);
+        $data = XMLin($body->content, keyattr => [$key], NoAttr => 1, NormaliseSpace => 2);
         if (!$key && $list) {
             return \@{$data->{$list}};
         } elsif ($key && $list) {

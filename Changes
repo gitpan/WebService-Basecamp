@@ -1,5 +1,9 @@
 Revision history for Perl module WebService::Basecamp
 
+0.1.2 Fri November 3 2006
+    - added Content-Length header to HTTP request to stop 411 error
+		- added 'NormaliseSpace => 2' to XMLin to remove excessive whitespace in XML data
+
 0.1.1 Fri Aug 18 2006
     - fixed a couple of typos and alignment in documentation
 
