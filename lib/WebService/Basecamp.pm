@@ -4,7 +4,7 @@ use strict;
 use LWP::UserAgent;
 use XML::Simple;
 
-our $VERSION = 0.1.2;
+our $VERSION = 0.1.3;
 
 =pod
 
@@ -387,6 +387,7 @@ sub create_message {
     my $data        = shift;
     my $qs            = "/projects/$project_id/msg/create";
     my $category_id = int($data->{'category_id'});
+	my $milestone_id	= int($data->{'milestone_id'});
     my $title        = $data->{'title'};
     my $body        = $data->{'body'};
     my $extended_body = $data->{'extended_body'};
@@ -402,8 +403,11 @@ sub create_message {
     <extended-body>$extended_body</extended-body>
     <use-textile>$textile</use-textile>
     <private>$private</private>
-  </post>
 XML
+	if ($milestone_id) {
+		$xml .= "<milestone-id>$milestone_id</milestone-id>\n";
+	}
+	$xml .= "</post>";
     foreach my $pid (@$notify) {
         $pid = int($pid);
         $xml .= "<notify>$pid</notify>";
@@ -679,7 +683,7 @@ sub create_list {
     my $project_id    = shift || return $self->_val_error('project');
     my $data        = shift;
     my $qs            = "/projects/$project_id/todos/create_list";
-    my $milestone_id = int($data->{'category_id'});
+    my $milestone_id = int($data->{'milestone_id'});
     my $private        = $data->{'private'} ? 'true' : 'false';
     my $tracked        = $data->{'track'} ? 'true' : 'false';
     my $name        = $data->{'name'};
@@ -733,7 +737,7 @@ sub delete_list {
 
 =pod
 
-=item delete_list($list_id)
+=item list($list_id)
 
 This will return the metadata and items for a specific list.
 

@@ -1,6 +1,6 @@
 ---
 name: WebService-Basecamp
-version: 0.1.2
+version: 0.1.3
 author:
   - 'David Baxter <david@sitesuite.com.au>'
 abstract: Perl interface to the Basecamp API webservice
