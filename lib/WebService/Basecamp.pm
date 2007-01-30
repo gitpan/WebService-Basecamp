@@ -4,7 +4,7 @@ use strict;
 use LWP::UserAgent;
 use XML::Simple;
 
-our $VERSION = 0.1.3;
+our $VERSION = 0.1.4;
 
 =pod
 
@@ -1340,8 +1340,12 @@ sub _perform {
         return $body->content if $self->{'_xml'};
         $data = XMLin($body->content, keyattr => [$key], NoAttr => 1, NormaliseSpace => 2);
         if (!$key && $list) {
-            return \@{$data->{$list}};
-        } elsif ($key && $list) {
+            if (ref $data->{$list} eq 'ARRAY') {
+				return \@{$data->{$list}};
+            } else {
+                return [$data->{$list}];
+            }        
+		} elsif ($key && $list) {
             return $data->{$list};
         } else {
             return $data;
@@ -1420,6 +1424,7 @@ David Baxter <david@sitesuite.com.au>
 Thanks to SiteSuite (http://www.sitesuite.com.au) for funding the 
 development of this plugin and for releasing it to the world.
 
+Thanks to Patrick Mulvaney for contributions to this module.
 
 =head1 LICENCE AND COPYRIGHT
 
